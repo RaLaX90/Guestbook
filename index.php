@@ -83,6 +83,19 @@
 		<h1><i class="fa fa-eye" aria-hidden="true"></i> Перегляд всіх коментарів</h1>
 		<br>
 
+<?php
+	$mysqli = new mysqli("localhost", "root", "", "guestbook");
+	$mysqli -> query("SET NAMES 'utf8'");
+
+	if ($mysqli -> connect_errno) {
+	   	printf("Соединение не удалось: %s\n", $mysqli->connect_error);
+	   	exit();
+	} else {
+		echo "Connection nice.";
+	}
+
+?>
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				Петро Сагайдачний, 15.02.2018, 17:36
@@ -107,3 +120,4 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	</body>
 </html>
+
