@@ -1,8 +1,9 @@
 <?php
 	ob_start();
 	include 'first.html';
-	$mysqli = new mysqli("localhost", "root", "", "guestbook");
+	$mysqli = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
 	$mysqli -> query("SET NAMES 'utf8'");
+
 	// if ($mysqli -> connect_errno) {
 	// 	   	printf("Connection error.: %s\n", $mysqli->connect_error);
 	// 	   	exit();
@@ -12,17 +13,20 @@
 	
 	if (isset($_REQUEST['send'])) {
 	$input_nickname = $_REQUEST['input_nickname'];
+	$input_nickname = htmlspecialchars($input_nickname);
 	$input_text = $_REQUEST['input_text'];
+	$input_text = htmlspecialchars($input_text);
 	$time = date('H:i', strtotime("-1 hours"));
 	$date = date('d.m.Y');
 	$datetime = $date.", ".$time;
 	$success = $mysqli -> query ("INSERT INTO `comments` (`nickname`, `text`, `datetime`) VALUES ('$input_nickname', '$input_text', '$datetime') 	");
-	header("Location: http://localhost/guestbook/index.php");
+	header("Location: http://hwork.net/guestbook/");
 	}
 
 	if (isset($_REQUEST['delete'])) {
-		$mysqli -> query ("DELETE FROM `guestbook`.`comments` WHERE `comments`.`id` >= 0");
-		header("Location: http://localhost/guestbook/index.php");
+		$mysqli -> query ("DELETE FROM `hworknet_test`.`comments` WHERE `comments`.`id` >= 0");
+		$mysqli -> query ("ALTER TABLE comments AUTO_INCREMENT = 0");
+		header("Location: http://hwork.net/guestbook/");
 	}
 
 	$result = $mysqli -> query("SELECT * FROM `comments` ORDER BY `id` DESC");
