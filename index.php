@@ -16,7 +16,7 @@
 	$input_nickname = htmlspecialchars($input_nickname);
 	$input_text = $_REQUEST['input_text'];
 	$input_text = htmlspecialchars($input_text);
-	$time = date('H:i', strtotime("-1 hours"));
+	$time = date('H:i', strtotime("+2 hours"));
 	$date = date('d.m.Y');
 	$datetime = $date.", ".$time;
 	$success = $mysqli -> query ("INSERT INTO `comments` (`nickname`, `text`, `datetime`) VALUES ('$input_nickname', '$input_text', '$datetime') 	");
