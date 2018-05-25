@@ -56,7 +56,7 @@
 	// $result_set = $mysqli -> query("SELECT `id`, `login` FROM `users` WHERE `id` > 7");
 	// printResult($result_set);
 
-	//	сортування id по зростанню цифри
+	// сортування id по зростанню цифри
 	// $result_set = $mysqli -> query("SELECT * FROM `users` WHERE `id` < 8 ORDER BY `id` ASC"); // ASC - зростання, DESC - убування
 	// printResult($result_set);
 
