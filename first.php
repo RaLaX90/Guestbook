@@ -1,3 +1,54 @@
+<?php
+   
+    // підключаємося до БД
+	$mysqli = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
+	// $mysqli = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+	$mysqli -> query("SET NAMES 'utf8'");
+
+    if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
+        $query = $mysqli -> query("SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+        $userdata = mysqli_fetch_assoc($query);
+
+        // перевірка на логін користувача
+        if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])){
+            setcookie("id", "", time() - 3600*24*30*12, "/");
+            setcookie("hash", "", time() - 3600*24*30*12, "/");
+            
+            $nick = 'Акаунт';
+            $nickname = '';
+            $add  = '
+				<li><a href="login.php">Вхід</a></li>
+				<li><a href="register.php">Реєстрація</a></li>
+            ';
+        } else{
+            $nick = $userdata['user_login'];
+            $nickname = $userdata['user_login'];
+            $add  = '
+				<li><a href="exit.php">Вихід</a></li>
+            ';
+            $style = 'style = "display: none;"';
+            
+            if ($nick == "admin"){
+            	$admin_button = '<hr> <button type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Видалити всі</button>';
+            }
+        }
+    } else{
+        $nick = 'Акаунт';
+        $nickname = '';
+        $add  = '
+			<li><a href="login.php">Вхід</a></li>
+			<li><a href="register.php">Реєстрація</a></li>
+        ';
+    }
+
+    // інформація про сторінку (номер сторінки)
+    $this_page = $_GET[page];
+    if (!empty($this_page)){
+    	$page_text = "(".$this_page." сторінка)";;
+    } else {
+    	$page_text = "";
+    }
+?>
 <!DOCTYPE html>
 <html>
 	<head> 
@@ -23,9 +74,19 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
+					<li class="active"><a href="index.php">Головна</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#myModal_about">Про автора</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#myModal_contact">Контакти</a></li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal_admin">Адміністрування</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#myModal_admin">Перегляд</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $nick; ?> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<?php echo $add; ?>
+						</ul>
+					</li>
+
 				</ul>
 			</div>
 		</div>
@@ -65,14 +126,13 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Адміністрування</h4>
+					<h4 class="modal-title" id="myModalLabel">Перегляд</h4>
 				</div>
 				<div class="modal-body">
 					<form method="POST">
 						<button type="submit" class="btn btn-info" name="asc"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></button> Старі повідомлення зверху <br> <br>
 						<button type="submit" class="btn btn-info" name="desc"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></button> Нові повідомлення зверху</i>
-						<hr>
-						<button type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Видалити всі</button>
+						<?php echo $admin_button; ?>
 					</form>
 				</div>
 			</div>
@@ -83,15 +143,15 @@
 		<br>
 		<form method="POST">
 			<div class="form-group">
-				<label for="inputName">Ім'я або нікнейм</label>
-				<input class="form-control" type="text" id="inputName" placeholder="Петро Іванов" name="input_nickname">
+				<label for="inputName" <?php echo $style; ?>>Ім'я або нікнейм</label>
+				<input <?php echo $style; ?> required class="form-control" type="text" id="inputName" placeholder="Петро Іванов" name="input_nickname" value="<?php echo $nickname; ?>">
 			</div>
 			<div class="form-group">
 				<label for="inputComment">Текст коментаря:</label>
-				<textarea class="form-control" rows="5" id="inputComment" placeholder="Прекрасний приклад використання фреймворку Bootstrap для власних цілей." name="input_text"></textarea>
+				<textarea required class="form-control" rows="5" id="inputComment" placeholder="Будь-який текст коментаря." name="input_text"></textarea>
 			</div>
 			<button type="submit" class="btn btn-primary" name="send"><i class="fa fa-paper-plane" aria-hidden="true"></i> Надіслати</button>
 		</form>
 		<br>
-		<h1><i class="fa fa-eye" aria-hidden="true"></i> Перегляд всіх коментарів</h1>
+		<h1><i class="fa fa-eye" aria-hidden="true"></i> Перегляд всіх коментарів <small><?php echo $page_text; ?> </small></h1> 
 		<br>

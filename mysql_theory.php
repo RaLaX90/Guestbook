@@ -1,8 +1,8 @@
 <?php
 
 // підключення до БД
-	$mysqli = new mysqli("localhost", "root", "", "myBase");
-	$mysqli -> query("SET NAMES 'utf8'");
+	// $mysqli = new mysqli("localhost", "root", "", "myBase");
+	// $mysqli -> query("SET NAMES 'utf8'");
 
 // перевірка з'єднання
 	// if ($mysqli -> connect_errno) {
@@ -56,7 +56,7 @@
 	// $result_set = $mysqli -> query("SELECT `id`, `login` FROM `users` WHERE `id` > 7");
 	// printResult($result_set);
 
-	//	сортування id по зростанню цифри
+	// сортування id по зростанню цифри
 	// $result_set = $mysqli -> query("SELECT * FROM `users` WHERE `id` < 8 ORDER BY `id` ASC"); // ASC - зростання, DESC - убування
 	// printResult($result_set);
 
@@ -77,6 +77,6 @@
 	// printResult($result_set);
 
 // закриття з'єднання
-	$mysqli -> close();
+	// $mysqli -> close();
 
 ?>
