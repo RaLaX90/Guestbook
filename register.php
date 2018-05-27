@@ -2,7 +2,8 @@
     // Страница реєстрації нового користувача
     
     // З'єднання з БД
-    $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+    $link = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
+    // $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
 
     if(isset($_POST['submit'])){
         $err = [];

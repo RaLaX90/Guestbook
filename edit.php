@@ -4,10 +4,11 @@
 	ob_start();
 
     // з'єднання з БД
-    $link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
+    $link = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
+    // $link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
 
     if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
-        $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+        $query = $link -> query("SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
         $userdata = mysqli_fetch_assoc($query);
 
         // перевірка на логін користувача
@@ -50,20 +51,16 @@
 	} else {
 		echo "Error";
 	}
-
-	// з'єднання з БД
-	$mysqli = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
-	$mysqli -> query("SET NAMES 'utf8'");
 	
 	// отримати текст коментаря, який треба відредагувати
-	$query = $mysqli -> query("SELECT `text` FROM `comments` WHERE id = ".$edit."", $db);
+	$query = $link -> query("SELECT `text` FROM `comments` WHERE id = ".$edit."");
 	$array = mysqli_fetch_array($query);
 	$message = $array[0];
 
 	// редагування вибраного коментаря
 	$input_text = $_REQUEST['input_text'];
 	if (isset($_REQUEST['edit']) && !empty($input_text)) {
-		$query = $mysqli -> query("UPDATE `hworknet_test`.`comments` SET `text` = '".$input_text."', `datetime` = '".$datetime."' WHERE `comments`.`id` = ".$edit.";");
+		$query = $link -> query("UPDATE `hworknet_test`.`comments` SET `text` = '".$input_text."', `datetime` = '".$datetime."' WHERE `comments`.`id` = ".$edit.";");
 		echo "<script> alert('".$edit."'); </script>";
 		header("Location: http://localhost/guestbook/edit.php");
 	}

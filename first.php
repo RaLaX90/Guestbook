@@ -1,8 +1,8 @@
 <?php
    
     // підключаємося до БД
-	// $mysqli = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
-	$mysqli = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+	$mysqli = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
+	// $mysqli = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
 	$mysqli -> query("SET NAMES 'utf8'");
 
     if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
@@ -45,6 +45,8 @@
     $this_page = $_GET[page];
     if (!empty($this_page)){
     	$page_text = "(".$this_page." сторінка)";;
+    } else {
+    	$page_text = "";
     }
 ?>
 <!DOCTYPE html>
