@@ -1,8 +1,8 @@
 <?php
-    // Страница авторизации
+    // сторінка авторизації
 
-    // Функция для генерации случайной строки
-    function generateCode($length=6) {
+    // функція для генерації випадкового числа
+    function generateCode($length = 6) {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHI JKLMNOPRQSTUVWXYZ0123456789";
         $code = "";
         $clen = strlen($chars) - 1;
@@ -12,44 +12,31 @@
         return $code;
     }
 
-    // Соединяемся с БД
-    $link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
+    // з'єднання з БД
+    $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
 
     if(isset($_POST['submit'])){
-        // Вытаскиваем из БД запись, у которой логин равняется введенному
-        $query = mysqli_query($link,"SELECT user_id, user_password FROM users WHERE user_login='".mysqli_real_escape_string($link,$_POST['login'])."' LIMIT 1");
+        // витягуємо із БД запис, в якій логін дорівнює введеному
+        $query = $link -> query("SELECT user_id, user_password FROM users WHERE user_login='".mysqli_real_escape_string($link, $_POST['login'])."' LIMIT 1");
         $data = mysqli_fetch_assoc($query);
 
-        // Сравниваем пароли
+        // порівнюємо паролі (по значенню і типу)
         if($data['user_password'] === md5(md5($_POST['password']))){
-            // Генерируем случайное число и шифруем его
+            // генеруємо випадкове число і шифруємо його подвійним md5 шифруванням
             $hash = md5(generateCode(10));
 
-            // if(!empty($_POST['not_attach_ip'])){
-                // Если пользователя выбрал привязку к IP
-                // Переводим IP в строку
-                // $insip = ", user_ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."')";
-            //     $insip = ", user_ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."')";
-            // } else {
-            //     $insip = "";
-            // }
+            // записуємо в БД новий хеш авторизації і ІР
+            $link -> query("UPDATE users SET user_hash='".$hash."' , user_ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."') WHERE user_id='".$data['user_id']."'");
 
-            // Записываем в БД новый хеш авторизации и IP
-            // mysqli_query($link, "UPDATE users SET user_hash='".$hash."' ".$insip." WHERE user_id='".$data['user_id']."'");
-            mysqli_query($link, "UPDATE users SET user_hash='".$hash."' , user_ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."') WHERE user_id='".$data['user_id']."'");
-
-            // echo "<script> alert('".$insip."');</script>";
-
-            // Ставим куки
+            // встановлюємо куки
             setcookie("id", $data['user_id'], time()+60*60*24*30);
-            setcookie("hash", $hash, time()+60*60*24*30,null,null,null,true); // httponly !!!
+            setcookie("hash", $hash, time()+60*60*24*30,null,null,null,true); 
 
-            // Переадресовываем браузер на страницу проверки нашего скрипта
-            // header("Location: check.php"); 
+            // після логіну переадресація на головну
             header("Location: index.php"); 
             exit();
         } else{
-            $message = '<div class="alert alert-danger alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Вы ввели неправильный логин/пароль</div>';
+            $message = '<div class="alert alert-danger alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Ви ввели невірний логін або пароль</div>';
         }
     }
 ?>
@@ -97,13 +84,6 @@
                     <label for="inputComment">Пароль</label>
                     <input required class="form-control" type="password" name="password">
                 </div>
-                 <!-- <div class="checkbox" style="display: none;">  -->
-<!--                  <div class="checkbox" > 
-                    <label> 
-                        <input type="checkbox" name="not_attach_ip" checked value=""> 
-                    </label> 
-                </div> -->
-
                 <button type="submit" class="btn btn-success" name="submit"><i class="fa fa-arrow-right" aria-hidden="true"></i> Ввійти</button>
             </form>
         </div>

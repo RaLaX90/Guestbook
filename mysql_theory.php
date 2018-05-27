@@ -1,8 +1,8 @@
 <?php
 
 // підключення до БД
-	$mysqli = new mysqli("localhost", "root", "", "myBase");
-	$mysqli -> query("SET NAMES 'utf8'");
+	// $mysqli = new mysqli("localhost", "root", "", "myBase");
+	// $mysqli -> query("SET NAMES 'utf8'");
 
 // перевірка з'єднання
 	// if ($mysqli -> connect_errno) {
@@ -77,6 +77,6 @@
 	// printResult($result_set);
 
 // закриття з'єднання
-	$mysqli -> close();
+	// $mysqli -> close();
 
 ?>

@@ -1,40 +1,40 @@
 <?php
-    // Страница регистрации нового пользователя
-
-    // Соединямся с БД
-    $link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
+    // Страница реєстрації нового користувача
+    
+    // З'єднання з БД
+    $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
 
     if(isset($_POST['submit'])){
         $err = [];
 
-        // проверям логин
+        // Перевірка логіну
         if(!preg_match("/^[a-zA-Z0-9]+$/",$_POST['login'])){
-            $err[] = "Логин может состоять только из букв английского алфавита и цифр";
+            $err[] = "Логін може складатися лише з букв англійського алфавіту та цифр";
         }
 
         if(strlen($_POST['login']) < 3 or strlen($_POST['login']) > 30){
-            $err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
+            $err[] = "Логін повинен бути не менше 3-х символів і не більше 30";
         }
 
-        // проверяем, не сущестует ли пользователя с таким именем
-        $query = mysqli_query($link, "SELECT user_id FROM users WHERE user_login='".mysqli_real_escape_string($link, $_POST['login'])."'");
+        // Перевіряєм чи не існує користувача з таким іменем
+        $query = $link -> query("SELECT user_id FROM users WHERE user_login='".mysqli_real_escape_string($link, $_POST['login'])."'");
         if(mysqli_num_rows($query) > 0){
-            $err[] = "Пользователь с таким логином уже существует в базе данных";
+            $err[] = "Користувач з таким логіном вже існує в базі даних";
         }
 
-        // Если нет ошибок, то добавляем в БД нового пользователя
+        // Якщо немає помилок, додаємо нового користувача в БД
         if(count($err) == 0){
-
             $login = $_POST['login'];
 
-            // Убераем лишние пробелы и делаем двойное хеширование
+            // Прибираємо лишні пробіли і подвійно хешуємо пароль
             $password = md5(md5(trim($_POST['password'])));
 
-            mysqli_query($link,"INSERT INTO users SET user_login='".$login."', user_password='".$password."'");
+            $link -> query("INSERT INTO users SET user_login='".$login."', user_password='".$password."'");
+
+            // Після вдалої реєстрації перенаправлення на сторінку авторизації
             header("Location: login.php"); 
             exit();
-        }
-        else {
+        } else {
             $message1 = '<div class="alert alert-danger alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
             foreach($err AS $error) {
                 $message2 = $error."<br>";

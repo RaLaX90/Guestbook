@@ -1,11 +1,12 @@
 <?php
-    // Скрипт проверки
-
-    // Соединяемся с БД
-    $link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
+   
+    // підключаємося до БД
+	// $mysqli = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
+	$mysqli = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+	$mysqli -> query("SET NAMES 'utf8'");
 
     if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
-        $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+        $query = $mysqli -> query("SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
         $userdata = mysqli_fetch_assoc($query);
 
         // перевірка на логін користувача
@@ -14,12 +15,14 @@
             setcookie("hash", "", time() - 3600*24*30*12, "/");
             
             $nick = 'Акаунт';
+            $nickname = '';
             $add  = '
 				<li><a href="login.php">Вхід</a></li>
 				<li><a href="register.php">Реєстрація</a></li>
             ';
         } else{
             $nick = $userdata['user_login'];
+            $nickname = $userdata['user_login'];
             $add  = '
 				<li><a href="exit.php">Вихід</a></li>
             ';
@@ -31,19 +34,19 @@
         }
     } else{
         $nick = 'Акаунт';
+        $nickname = '';
         $add  = '
 			<li><a href="login.php">Вхід</a></li>
 			<li><a href="register.php">Реєстрація</a></li>
         ';
     }
 
-    // інформація про сторінку
+    // інформація про сторінку (номер сторінки)
     $this_page = $_GET[page];
     if (!empty($this_page)){
     	$page_text = "(".$this_page." сторінка)";;
     }
 ?>
-
 <!DOCTYPE html>
 <html>
 	<head> 
@@ -139,7 +142,7 @@
 		<form method="POST">
 			<div class="form-group">
 				<label for="inputName" <?php echo $style; ?>>Ім'я або нікнейм</label>
-				<input <?php echo $style; ?> required class="form-control" type="text" id="inputName" placeholder="Петро Іванов" name="input_nickname" value="<?php echo $nick; ?>">
+				<input <?php echo $style; ?> required class="form-control" type="text" id="inputName" placeholder="Петро Іванов" name="input_nickname" value="<?php echo $nickname; ?>">
 			</div>
 			<div class="form-group">
 				<label for="inputComment">Текст коментаря:</label>

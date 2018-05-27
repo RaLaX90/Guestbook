@@ -1,16 +1,17 @@
 <?php
-	ob_start();
-    // Скрипт проверки
 
-    // Соединяемся с БД
+	// увімкнення буферизації введення
+	ob_start();
+
+    // з'єднання з БД
     $link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
 
     if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
         $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
         $userdata = mysqli_fetch_assoc($query);
 
+        // перевірка на логін користувача
         if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])){
-
             setcookie("id", "", time() - 3600*24*30*12, "/");
             setcookie("hash", "", time() - 3600*24*30*12, "/");
             $nick = 'Акаунт';
@@ -18,8 +19,7 @@
 				<li><a href="login.php">Вхід</a></li>
 				<li><a href="register.php">Реєстрація</a></li>
             ';
-        }
-        else{
+        } else{
             $nick = $userdata['user_login'];
             $add  = '
 				<li><a href="exit.php">Вихід</a></li>
@@ -30,8 +30,7 @@
             	$admin_button = '<hr> <button type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Видалити всі</button>';
             }
         }
-    }
-    else{
+    } else{
         $nick = 'Акаунт';
         $add  = '
 			<li><a href="login.php">Вхід</a></li>
@@ -52,6 +51,7 @@
 		echo "Error";
 	}
 
+	// з'єднання з БД
 	$mysqli = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
 	$mysqli -> query("SET NAMES 'utf8'");
 	
@@ -67,9 +67,7 @@
 		echo "<script> alert('".$edit."'); </script>";
 		header("Location: http://localhost/guestbook/edit.php");
 	}
-
 ?>
-
 <!DOCTYPE html>
 <html>
 	<head> 
@@ -174,12 +172,12 @@
 			</div>
 			<button type="submit" class="btn btn-success" name="edit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Зберегти</button>
 		</form>
-
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	</body>
 </html>
 <?php 
+	// відправляємо буфер виведення, очищаємо і відключаємо
 	ob_flush();
 ?>
