@@ -59,138 +59,34 @@
 
 	// отримуємо записи із результуючого набору і поміщаємо їх в асоціативний масив
 	$comment = mysqli_fetch_array($result);
-
-
-
-	// Скрипт проверки
-
-	// Соединямся с БД
-	//$link = mysqli_connect("localhost", "mysql", "mysql", "hworknet_test");
-
-	// if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
-	//     $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
-	//     $userdata = mysqli_fetch_assoc($query);
-
-	//     if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])
-	//  or (($userdata['user_ip'] !== $_SERVER['REMOTE_ADDR'])  and ($userdata['user_ip'] !== "0"))) {
-	//         setcookie("id", "", time() - 3600*24*30*12, "/");
-	//         setcookie("hash", "", time() - 3600*24*30*12, "/");
-	       
-	// 		do{
-	// 			if ($comment != ""){
-	// 				echo " 
-	// 				<div class='panel panel-default'>
-	// 				<div class='panel-heading'>
-	// 				".$comment['nickname'].", ".$comment['datetime']."
-	// 				</div>
-	// 				<div class='panel-body'>
-	// 				".$comment['text']."
-	// 				</div>
-	// 				</div>
-	// 				";
-	// 			} else {
-	// 				echo " 
-	// 				<div class='panel panel-default'>
-	// 				<div class='panel-heading'>
-	// 				Тут пусто!
-	// 				</div>
-	// 				<div class='panel-body'>
-	// 				Поки що ніхто нічого не написав.
-	// 				</div>
-	// 				</div>
-	// 				";
-	// 			}
-	// 		} while ($comment = mysqli_fetch_array($result));
-	//     }
-	//     else{
-	// 	do{
-	// 		if ($comment != ""){
-	// 			echo " 
-	// 			<div class='panel panel-default'>
-	// 			<div class='panel-heading'>
-	// 			".$comment['nickname'].", ".$comment['datetime']." 
-			
-	// 			<form method='POST' style='display: inline;'>
-	// 				<button class='btn btn-danger' type='submit' name='del' value='".$comment['id']."'>Видалити</button>
-	// 			</form>
-				
-	// 			</div>
-	// 			<div class='panel-body'>
-	// 			".$comment['text']."
-	// 			</div>
-	// 			</div>
-	// 			";
-	// 		} else {
-	// 			echo " 
-	// 			<div class='panel panel-default'>
-	// 			<div class='panel-heading'>
-	// 			Тут пусто!
-	// 			</div>
-	// 			<div class='panel-body'>
-	// 			Поки що ніхто нічого не написав.
-	// 			</div>
-	// 			</div>
-	// 			";
-	// 		}
-	// 	} while ($comment = mysqli_fetch_array($result));
-	//     }
-	// }
-	// else{
-	// 		do{
-	// 			if ($comment != ""){
-	// 				echo " 
-	// 				<div class='panel panel-default'>
-	// 				<div class='panel-heading'>
-	// 				".$comment['nickname'].", ".$comment['datetime']."
-	// 				</div>
-	// 				<div class='panel-body'>
-	// 				".$comment['text']."
-	// 				</div>
-	// 				</div>
-	// 				";
-	// 			} else {
-	// 				echo " 
-	// 				<div class='panel panel-default'>
-	// 				<div class='panel-heading'>
-	// 				Тут пусто!
-	// 				</div>
-	// 				<div class='panel-body'>
-	// 				Поки що ніхто нічого не написав.
-	// 				</div>
-	// 				</div>
-	// 				";
-	// 			}
-	// 		} while ($comment = mysqli_fetch_array($result));
-	// }
-
-				// виведення всіх коментарів
-				
-				// do{
-				// 	if ($comment != ""){
-				// 		echo " 
-				// 		<div class='panel panel-default'>
-				// 		<div class='panel-heading'>
-				// 		".$comment['nickname'].", ".$comment['datetime']."
-				// 		</div>
-				// 		<div class='panel-body'>
-				// 		".$comment['text']."
-				// 		</div>
-				// 		</div>
-				// 		";
-				// 	} else {
-				// 		echo " 
-				// 		<div class='panel panel-default'>
-				// 		<div class='panel-heading'>
-				// 		Тут пусто!
-				// 		</div>
-				// 		<div class='panel-body'>
-				// 		Поки що ніхто нічого не написав.
-				// 		</div>
-				// 		</div>
-				// 		";
-				// 	}
-				// } while ($comment = mysqli_fetch_array($result));
-
+	
+					// виведення всіх коментарів
+					
+					// do{
+					// 	if ($comment != ""){
+					// 		echo " 
+					// 		<div class='panel panel-default'>
+					// 		<div class='panel-heading'>
+					// 		".$comment['nickname'].", ".$comment['datetime']."
+					// 		</div>
+					// 		<div class='panel-body'>
+					// 		".$comment['text']."
+					// 		</div>
+					// 		</div>
+					// 		";
+					// 	} else {
+					// 		echo " 
+					// 		<div class='panel panel-default'>
+					// 		<div class='panel-heading'>
+					// 		Тут пусто!
+					// 		</div>
+					// 		<div class='panel-body'>
+					// 		Поки що ніхто нічого не написав.
+					// 		</div>
+					// 		</div>
+					// 		";
+					// 	}
+					// } while ($comment = mysqli_fetch_array($result));
 
 	do{
 		if ($comment != "" && $nick == $comment['nickname']){
