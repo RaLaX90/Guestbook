@@ -8,20 +8,17 @@
         $query = mysqli_query($link, "SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
         $userdata = mysqli_fetch_assoc($query);
 
+        // перевірка на логін користувача
         if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])){
-
             setcookie("id", "", time() - 3600*24*30*12, "/");
             setcookie("hash", "", time() - 3600*24*30*12, "/");
-            //print "Хм, что-то не получилось"."<br>";
+            
             $nick = 'Акаунт';
             $add  = '
 				<li><a href="login.php">Вхід</a></li>
 				<li><a href="register.php">Реєстрація</a></li>
             ';
-
-        }
-        else{
-            //print "Привет, ".$userdata['user_login'].". Всё работает! <br>";
+        } else{
             $nick = $userdata['user_login'];
             $add  = '
 				<li><a href="exit.php">Вихід</a></li>
@@ -32,14 +29,18 @@
             	$admin_button = '<hr> <button type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Видалити всі</button>';
             }
         }
-    }
-    else{
-        //print "Включите куки <br>";
+    } else{
         $nick = 'Акаунт';
         $add  = '
 			<li><a href="login.php">Вхід</a></li>
 			<li><a href="register.php">Реєстрація</a></li>
         ';
+    }
+
+    // інформація про сторінку
+    $this_page = $_GET[page];
+    if (!empty($this_page)){
+    	$page_text = "(".$this_page." сторінка)";;
     }
 ?>
 
@@ -147,5 +148,5 @@
 			<button type="submit" class="btn btn-primary" name="send"><i class="fa fa-paper-plane" aria-hidden="true"></i> Надіслати</button>
 		</form>
 		<br>
-		<h1><i class="fa fa-eye" aria-hidden="true"></i> Перегляд всіх коментарів</h1>
+		<h1><i class="fa fa-eye" aria-hidden="true"></i> Перегляд всіх коментарів <small><?php echo $page_text; ?> </small></h1> 
 		<br>

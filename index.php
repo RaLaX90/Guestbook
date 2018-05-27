@@ -88,6 +88,99 @@
 					// 	}
 					// } while ($comment = mysqli_fetch_array($result));
 
+	// do{
+	// 	if ($comment != "" && $nick == $comment['nickname']){
+	// 		echo " 
+	// 		<div class='panel panel-default'>
+	// 		<div class='panel-heading'>
+	// 		".$comment['nickname'].", ".$comment['datetime']." 
+		
+	// 		<div class='forms'>
+	// 		<form method='POST' class='form'>
+	// 			<button class='btn btn-danger' type='submit' name='del' value='".$comment['id']."'><i class='fa fa-trash-o' aria-hidden='true'></i></button>
+	// 		</form>
+	// 		<form method='POST' class='form'>
+	// 			<button class='btn btn-primary' type='submit' name='edit' value='".$comment['id']."'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></button>
+	// 		</form>
+	// 		</div>
+	// 		</div>
+	// 		<div class='panel-body'>
+	// 		".$comment['text']."
+	// 		</div>
+	// 		</div>
+	// 		";
+	// 	} else if ($comment != "" && $nick != $comment['nickname']){
+	// 		echo " 
+	// 		<div class='panel panel-default'>
+	// 		<div class='panel-heading'>
+	// 		".$comment['nickname'].", ".$comment['datetime']."
+	// 		</div>
+	// 		<div class='panel-body'>
+	// 		".$comment['text']."
+	// 		</div>
+	// 		</div>
+	// 		";	
+	// 	} else {
+	// 		echo " 
+	// 		<div class='panel panel-default'>
+	// 		<div class='panel-heading'>
+	// 		Тут пусто!
+	// 		</div>
+	// 		<div class='panel-body'>
+	// 		Поки що ніхто нічого не написав.
+	// 		</div>
+	// 		</div>
+	// 		";
+	// 	}
+	// } while ($comment = mysqli_fetch_array($result));
+
+
+
+
+	/*
+	$kol - количество записей для вывода
+	$art - с какой записи выводить
+	$total - всего записей
+	$page - текущая страница
+	$str_pag - количество страниц для пагинации
+	*/
+
+	// Пагинация
+
+	// Текущая страница
+	if (isset($_GET['page'])){
+		$page = $_GET['page'];
+	}else $page = 1;
+	
+	$kol = 5;  //количество записей для вывода
+	$art = ($page * $kol) - $kol;
+	//echo "Виводити з такого запису: ".$art."<br>";
+	
+	// Определяем все количество записей в таблице
+	//$res = mysql_query("SELECT COUNT(*) FROM `comments`");
+	$res = $mysqli -> query ("SELECT COUNT(*) FROM `comments`");
+	$row = mysqli_fetch_row($res);
+	$total = $row[0]; // всего записей	
+	//echo "Всього записів: ".$total."<br>";
+	
+	// Количество страниц для пагинации
+	$str_pag = ceil($total / $kol);
+	//echo "Кількість сторінок: ".$str_pag."<br>";
+	
+
+	
+	// Запрос и вывод записей
+	//$result = mysql_query("SELECT * FROM `comments` LIMIT $art,$kol,$db");
+	$result = $mysqli -> query("SELECT * FROM `comments` LIMIT ".$art.",".$kol."");
+	$comment = mysqli_fetch_array($result);
+
+    // do{
+    //     echo "<h2>".$myrow['nickname']."</h2>";
+    //     echo "<p>".$myrow['text']."</p>";
+    // } while ($myrow = mysqli_fetch_array($result));
+
+
+
 	do{
 		if ($comment != "" && $nick == $comment['nickname']){
 			echo " 
@@ -133,6 +226,15 @@
 			";
 		}
 	} while ($comment = mysqli_fetch_array($result));
+
+
+	// формируем пагинацию
+	echo '<center> <nav aria-label="Page navigation"> <ul class="pagination">';
+	for ($i = 1; $i <= $str_pag; $i++){
+		//echo "<a href='index.php?page=".$i."'> ".$i." </a>";
+		echo '<li><a href="index.php?page='.$i.'">'.$i.'</a></li>';
+	}
+	echo '</ul> </nav> </center>';
 
 	// видалення будь-якого коментаря
 	if (isset($_REQUEST['del'])) {
