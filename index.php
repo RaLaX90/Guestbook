@@ -8,7 +8,7 @@
 
 	// якщо натиснута кнопка відправити, то отримуємо дані із input'ів в змінні
 	if (isset($_REQUEST['send'])) {
-	$input_nickname = $_REQUEST['input_nickname'];
+	$input_nickname = $nickname;
 	$input_text = $_REQUEST['input_text'];
 
 	// перетворюємо спеціальні символи в HTML-сутності

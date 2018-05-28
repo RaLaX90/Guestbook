@@ -147,10 +147,6 @@
 		<br <?php echo $style2; ?>>
 		<form method="POST" <?php echo $style2; ?>>
 			<div class="form-group">
-				<label for="inputName" <?php echo $style; ?>>Ім'я або нікнейм</label>
-				<input <?php echo $style; ?> required class="form-control" type="text" id="inputName" placeholder="Петро Іванов" name="input_nickname" value="<?php echo $nickname; ?>">
-			</div>
-			<div class="form-group">
 				<label <?php echo $style2; ?> for="inputComment">Текст коментаря:</label>
 				<textarea <?php echo $style2; ?> required class="form-control" rows="5" id="inputComment" placeholder="Будь-який текст коментаря." name="input_text"></textarea>
 			</div>
