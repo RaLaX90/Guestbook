@@ -58,6 +58,7 @@
 	$query = $mysqli -> query("SELECT `text` FROM `comments` WHERE id = ".$edit."");
 	$array = mysqli_fetch_array($query);
 	$message = $array[0];
+	$message = str_replace("<br />", "", $message);
 
 	// отримати автора коментаря, який треба відредагувати
 	$query = $mysqli -> query("SELECT `nickname` FROM `comments` WHERE id = ".$edit."");
