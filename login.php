@@ -13,12 +13,11 @@
     }
 
     // з'єднання з БД
-    $link = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
-    // $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+    include 'connect.php';
 
     if(isset($_POST['submit'])){
         // витягуємо із БД запис, в якій логін дорівнює введеному
-        $query = $link -> query("SELECT user_id, user_password FROM users WHERE user_login='".mysqli_real_escape_string($link, $_POST['login'])."' LIMIT 1");
+        $query = $mysqli -> query("SELECT user_id, user_password FROM users WHERE user_login='".mysqli_real_escape_string($mysqli, $_POST['login'])."' LIMIT 1");
         $data = mysqli_fetch_assoc($query);
 
         // порівнюємо паролі (по значенню і типу)
@@ -27,7 +26,7 @@
             $hash = md5(generateCode(10));
 
             // записуємо в БД новий хеш авторизації і ІР
-            $link -> query("UPDATE users SET user_hash='".$hash."' , user_ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."') WHERE user_id='".$data['user_id']."'");
+            $mysqli -> query("UPDATE users SET user_hash='".$hash."' , user_ip=INET_ATON('".$_SERVER['REMOTE_ADDR']."') WHERE user_id='".$data['user_id']."'");
 
             // встановлюємо куки
             setcookie("id", $data['user_id'], time()+60*60*24*30);

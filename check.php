@@ -2,11 +2,10 @@
     // скрипт перевірки логіна
 
     // з'єднання з БД
-    $link = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
-    // $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+    include 'connect.php';
 
     if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
-        $query = $link -> query("SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+        $query = $mysqli -> query("SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
         $userdata = mysqli_fetch_assoc($query);
 
         if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])){

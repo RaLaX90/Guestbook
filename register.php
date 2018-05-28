@@ -1,9 +1,8 @@
 <?php
     // Страница реєстрації нового користувача
     
-    // З'єднання з БД
-    $link = new mysqli("localhost", "hworknet_admin", "11223344", "hworknet_test");
-    // $link = new mysqli("localhost", "mysql", "mysql", "hworknet_test");
+    // з'єднання з БД
+    include 'connect.php';
 
     if(isset($_POST['submit'])){
         $err = [];
@@ -18,7 +17,7 @@
         }
 
         // Перевіряєм чи не існує користувача з таким іменем
-        $query = $link -> query("SELECT user_id FROM users WHERE user_login='".mysqli_real_escape_string($link, $_POST['login'])."'");
+        $query = $mysqli -> query("SELECT user_id FROM users WHERE user_login='".mysqli_real_escape_string($mysqli, $_POST['login'])."'");
         if(mysqli_num_rows($query) > 0){
             $err[] = "Користувач з таким логіном вже існує в базі даних";
         }
@@ -30,7 +29,7 @@
             // Прибираємо лишні пробіли і подвійно хешуємо пароль
             $password = md5(md5(trim($_POST['password'])));
 
-            $link -> query("INSERT INTO users SET user_login='".$login."', user_password='".$password."'");
+            $mysqli -> query("INSERT INTO users SET user_login='".$login."', user_password='".$password."'");
 
             // Після вдалої реєстрації перенаправлення на сторінку авторизації
             header("Location: login.php"); 
