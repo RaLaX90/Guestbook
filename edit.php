@@ -19,6 +19,7 @@
 				<li><a href="login.php">Вхід</a></li>
 				<li><a href="register.php">Реєстрація</a></li>
             ';
+            header("Location: index.php");
         } else{
             $nick = $userdata['user_login'];
             $add  = '
@@ -36,6 +37,7 @@
 			<li><a href="login.php">Вхід</a></li>
 			<li><a href="register.php">Реєстрація</a></li>
         ';
+        header("Location: index.php");
     }
 
     // визначаємо дату і час редагування коментаря
@@ -48,7 +50,8 @@
   	if (!empty($_SESSION["edit"])){
 		$edit = $_SESSION["edit"]; 
 	} else {
-		echo "Error";
+		//echo "Error";
+		header("Location: index.php");
 	}
 	
 	// отримати текст коментаря, який треба відредагувати

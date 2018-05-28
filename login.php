@@ -1,6 +1,22 @@
 <?php
     // сторінка авторизації
 
+    // з'єднання з БД
+    include 'connect.php';
+
+    if (isset($_COOKIE['id']) and isset($_COOKIE['hash'])){
+        $query = $mysqli -> query("SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+        $userdata = mysqli_fetch_assoc($query);
+
+        // перевірка на логін користувача
+        if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])){
+            setcookie("id", "", time() - 3600*24*30*12, "/");
+            setcookie("hash", "", time() - 3600*24*30*12, "/");
+        } else{
+            header("Location: index.php");
+        }
+    } 
+
     // функція для генерації випадкового числа
     function generateCode($length = 6) {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHI JKLMNOPRQSTUVWXYZ0123456789";
@@ -12,8 +28,6 @@
         return $code;
     }
 
-    // з'єднання з БД
-    include 'connect.php';
 
     if(isset($_POST['submit'])){
         // витягуємо із БД запис, в якій логін дорівнює введеному

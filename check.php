@@ -11,6 +11,7 @@
         if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])){
             setcookie("id", "", time() - 3600*24*30*12, "/");
             setcookie("hash", "", time() - 3600*24*30*12, "/");
+            header("Location: index.php");
             print "Щось не вийшло"."<br>";
             echo $userdata['user_hash']."<br>";
             echo $_COOKIE['hash']."<br>";
@@ -19,6 +20,7 @@
             echo $userdata['user_ip']."<br>";
             echo $_SERVER['REMOTE_ADDR']."<br>";
         } else{
+            header("Location: index.php");
             print "Привіт, ".$userdata['user_login'].". Все працює! <br>";
             echo $userdata['user_hash']."<br>";
             echo $_COOKIE['hash']."<br>";
@@ -28,6 +30,7 @@
             echo $_SERVER['REMOTE_ADDR']."<br>";
         }
     } else{
+        header("Location: index.php");
         print "Ввімкніть куки <br>";
         echo $userdata['user_hash']."<br>";
         echo $_COOKIE['hash']."<br>";
