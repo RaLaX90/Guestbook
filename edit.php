@@ -49,8 +49,8 @@
 	session_start();
   	if (!empty($_SESSION["edit"])){
 		$edit = $_SESSION["edit"]; 
+		$page = $_SESSION["page"]; 
 	} else {
-		//echo "Error";
 		header("Location: index.php");
 	}
 	
@@ -59,13 +59,21 @@
 	$array = mysqli_fetch_array($query);
 	$message = $array[0];
 
-	// редагування вибраного коментаря
-	$input_text = $_REQUEST['input_text'];
-	if (isset($_REQUEST['edit']) && !empty($input_text)) {
-		$query = $mysqli -> query("UPDATE `hworknet_test`.`comments` SET `text` = '".$input_text."', `datetime` = '".$datetime."' WHERE `comments`.`id` = ".$edit.";");
-		echo "<script> alert('".$edit."'); </script>";
-		header("Location: edit.php");
+	// отримати автора коментаря, який треба відредагувати
+	$query = $mysqli -> query("SELECT `nickname` FROM `comments` WHERE id = ".$edit."");
+	$array = mysqli_fetch_array($query);
+	$author = $array[0];
+
+	if ($author != $nick){
+		header("Location: index.php?page=".$page);
 	}
+
+	// редагування вибраного коментаря
+	$input_text = nl2br(htmlspecialchars($_REQUEST['input_text']));
+	if (isset($_REQUEST['edit']) && !empty($input_text) && $author == $nick) {
+		$query = $mysqli -> query("UPDATE `hworknet_test`.`comments` SET `text` = '".$input_text."', `datetime` = '".$datetime."' WHERE `comments`.`id` = ".$edit.";");
+		header("Location: index.php?page=".$page);
+	} 
 ?>
 <!DOCTYPE html>
 <html>

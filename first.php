@@ -22,6 +22,7 @@
 				<li><a href="login.php">Вхід</a></li>
 				<li><a href="register.php">Реєстрація</a></li>
             ';
+            $style2 = 'style = "display: none;"';
         } else{
             $nick = $userdata['user_login'];
             $nickname = $userdata['user_login'];
@@ -41,6 +42,7 @@
 			<li><a href="login.php">Вхід</a></li>
 			<li><a href="register.php">Реєстрація</a></li>
         ';
+        $style2 = 'style = "display: none;"';
     }
 
     // інформація про сторінку (номер сторінки)
@@ -132,8 +134,8 @@
 				</div>
 				<div class="modal-body">
 					<form method="POST">
-						<button type="submit" class="btn btn-info" name="asc"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></button> Старі повідомлення зверху <br> <br>
-						<button type="submit" class="btn btn-info" name="desc"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></button> Нові повідомлення зверху</i>
+						<button type="submit" class="btn btn-info" name="asc"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i> Старі повідомлення зверху </button> <br> <br>
+						<button type="submit" class="btn btn-info" name="desc"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>  Нові повідомлення зверху</button></i>
 						<?php echo $admin_button; ?>
 					</form>
 				</div>
@@ -141,19 +143,19 @@
 		</div>
 	</div>
 	<div class="all">
-		<h1><i class="fa fa-comments" aria-hidden="true"></i> Залиште коментар</h1>
-		<br>
-		<form method="POST">
+		<h1 <?php echo $style2; ?>><i class="fa fa-comments" aria-hidden="true"></i> Залиште коментар</h1>
+		<br <?php echo $style2; ?>>
+		<form method="POST" <?php echo $style2; ?>>
 			<div class="form-group">
 				<label for="inputName" <?php echo $style; ?>>Ім'я або нікнейм</label>
 				<input <?php echo $style; ?> required class="form-control" type="text" id="inputName" placeholder="Петро Іванов" name="input_nickname" value="<?php echo $nickname; ?>">
 			</div>
 			<div class="form-group">
-				<label for="inputComment">Текст коментаря:</label>
-				<textarea required class="form-control" rows="5" id="inputComment" placeholder="Будь-який текст коментаря." name="input_text"></textarea>
+				<label <?php echo $style2; ?> for="inputComment">Текст коментаря:</label>
+				<textarea <?php echo $style2; ?> required class="form-control" rows="5" id="inputComment" placeholder="Будь-який текст коментаря." name="input_text"></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary" name="send"><i class="fa fa-paper-plane" aria-hidden="true"></i> Надіслати</button>
+			<button  <?php echo $style2; ?>type="submit" class="btn btn-primary" name="send"><i class="fa fa-paper-plane" aria-hidden="true"></i> Надіслати</button>
 		</form>
-		<br>
+		<br <?php echo $style2; ?>>
 		<h1><i class="fa fa-eye" aria-hidden="true"></i> Перегляд всіх коментарів <small><?php echo $page_text; ?> </small></h1> 
 		<br>

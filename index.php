@@ -136,8 +136,14 @@
 	}
 	echo '</ul> </nav> </center>';
 
+	// отримати автора коментаря, який треба видалити
+
+	$query = $mysqli -> query("SELECT `nickname` FROM `comments` WHERE id = ".$_POST['del']."");
+	$array = mysqli_fetch_array($query);
+	$author = $array[0];
+
 	// видалення будь-якого коментаря
-	if (isset($_REQUEST['del'])) {
+	if (isset($_REQUEST['del']) && $nick == $author) {
 		$val_del = $_POST['del'];
 		$mysqli -> query ("DELETE FROM `hworknet_test`.`comments` WHERE `comments`.`id` = $val_del");
 		header("Location: index.php");
@@ -148,6 +154,7 @@
 		$val_edit = $_POST['edit'];
 		session_start();
   		$_SESSION["edit"] = $val_edit; 
+  		$_SESSION["page"] = $page; 
   		header("Location: edit.php");
 	}
 

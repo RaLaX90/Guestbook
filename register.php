@@ -64,6 +64,7 @@
         <link rel="stylesheet" href="style.css">
         <link rel="shortcut icon" href="ico.ico" type="image/x-icon">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
         <script src="https://use.fontawesome.com/6854e2086f.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,12 +100,39 @@
             </div>
             <div class="form-group">
                 <label for="inputComment">Пароль</label>
-                <input required class="form-control" type="password" name="password">
+                <!-- <input required class="form-control" type="password" name="password" data-toggle="password"> -->
+
+                <div class="input-append input-group">
+                    <input required id="password" class="form-control" type="password" data-placement="before">
+                    <input type="text" class="form-control" style="display: none;">
+                    <!-- <span tabindex="100" class="add-on input-group-addon" style="cursor: pointer;"> -->
+                        <!-- <i class="icon-eye-open glyphicon glyphicon-eye-open"></i> -->
+                    <!-- </span> -->
+                </div>
+
             </div>
             <button type="submit" class="btn btn-success" name="submit"><i class="fa fa-plus" aria-hidden="true"></i> Зареєструватися</button>
         </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="bootstrap-show-password.min.js"></script>
+    <script>
+        $(function() {
+          $('#password').password()
+          .password('focus')
+          .on('show.bs.password', function(e) {
+            $('#eventLog').text('On show event');
+            $('#methods').prop('checked', true);
+          }).on('hide.bs.password', function(e) {
+            $('#eventLog').text('On hide event');
+            $('#methods').prop('checked', false);
+          });
+          $('#methods').click(function() {
+            $('#password').password('toggle');
+          });
+        });
+      </script>
+
     </body>
 </html>

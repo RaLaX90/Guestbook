@@ -23,6 +23,10 @@ body {
 		display: inline;
 }
 
+.input-group, .input-append{
+	width: 100%;
+}
+
 @media screen and (max-width:600px) {
 	.all{
 		padding: 40px;
