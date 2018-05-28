@@ -13,7 +13,7 @@
 
 	// перетворюємо спеціальні символи в HTML-сутності
 	$input_nickname = htmlspecialchars($input_nickname);
-	$input_text = htmlspecialchars($input_text);
+	$input_text = nl2br(htmlspecialchars($input_text));
 
 	// визначаємо дату і час додавання коментаря
 	$time = date('H:i', strtotime("+0 hours"));
